@@ -2,8 +2,8 @@ package com.rabaraaq.project;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@Transactional
 @CrossOrigin
 public class EventClientGateway {
+	
+	@Value("${app.url.event}")
+	private String url;
 
 	@GetMapping("/api/events")
 	public List<Event> getAll() {
 		RestTemplate rt = new RestTemplate();
-		List events = rt.getForObject("http://localhost:8011/events", List.class);
+		List events = rt.getForObject(url + "/events", List.class);
 		System.out.println(events);
 		return events;
 	}
@@ -30,7 +32,7 @@ public class EventClientGateway {
 	@GetMapping("/api/events/{id}")
 	public Event getById(@PathVariable String id) {
 		RestTemplate rt = new RestTemplate();
-		Event events = rt.getForObject("http://localhost:8011/events/" + id, Event.class);
+		Event events = rt.getForObject(url + "/events/" + id, Event.class);
 		System.out.println(events);
 		return events;
 	}
@@ -38,14 +40,14 @@ public class EventClientGateway {
 	@DeleteMapping("/api/events/{id}")
 	public void deleteById(@PathVariable String id) {
 		RestTemplate rt = new RestTemplate();
-		rt.delete("http://localhost:8011/events/" + id);
+		rt.delete(url + "/events/" + id);
 	}
 
 	@PutMapping("/api/events/{id}")
 	public Event updateEvent(@PathVariable String id, @RequestBody Event events) {
 		RestTemplate rt = new RestTemplate();
 		HttpEntity<Event> eventRequest = new HttpEntity<>(events);
-		Event event = rt.postForObject("http://localhost:8011/events/", eventRequest, Event.class);
+		Event event = rt.postForObject(url + "/events/", eventRequest, Event.class);
 		return event;
 	}
 		
