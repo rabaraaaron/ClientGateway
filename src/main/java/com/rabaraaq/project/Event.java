@@ -1,9 +1,7 @@
 package com.rabaraaq.project;
 
-//@Document(collection = "events")
 public class Event {
 
-	//@Id
 	private String id;
 	private String code, title, description;
 

@@ -1,12 +1,8 @@
 package com.rabaraaq.project;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="registrations")
 public class Registration{
 	
-	@Id
 	public String id;
 	public String event_id, customer_id, registration_date, notes;
 
